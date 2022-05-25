@@ -1,0 +1,69 @@
+*************** uzcard_demo Project ***************
+1. Controller + Service + repository  lar qilinishi kerak.
+2. Swagger ulanishi kerak.
+3. Jwt deb bosh qotirmang.
+4. API test in  PostMan or .http file
+5. uuid in all entity
+6. insertable = false, updatable = false in join tables
+7. Log in every crud and making transaction (with detail)
+8. Project Spring security with In Memory Authentication.
+9. Validate all Api Data
+10. Card number should be generated using random and check for existence (8600-****-****-****)
+11. Heroku
+****** entity ******
+1. Client
+     name,surname,middleName,created_date, phone, status,profile_name
+2. Card
+    id,number,expired_date,phone,status,created_date,balance, Client, profile_name
+3. Transactions
+    id,fromCard,ToCard,amount,createdDate,Status,
+
+****** Important ******
+1. Amount and Balance in Long (mazgi tiyinda)
+2. id - in uuid
+3. Status - Active,NotActive,Block
+3. Transaction Status - Success, Failed
+4. Profile all in memory - roles: Profile (apelsin,payme), Bank (all banks), Admin
+
+****** API ******
+
+1. Client
+    1. Create  (BANK)
+    2. Update (except phone) (BANK)
+    3. Change Status (BANK)
+    4. Change Phone (BANK)
+    5. Client pagination (ADMIN)
+    6. Get By Id (ADMIN)(PROFILE if client was created by this profile)
+    7. Get Profile Client List (PROFILE)
+
+2. Card
+    1. Create (BANK)
+    2. Change Status (BANK) (PROFILE only to block)
+    3. Assign Phone (BANK)
+    4. Get Card List by phone (ANY
+    5. Get Card List By Client id
+    6. Get Card By number
+    7. Get Card balance by number
+    8. Filter (phone,card_number,exp_date,created_date, balance,profile_name,status,client_id,client_name, client_status)
+
+3. Transaction
+    1. Create (BANK)
+    2. Get Transaction pagination cardId (BANK,CLIENT)
+    3. Get transaction pagination  by client_id (BANK,CLIENT)
+    4. Get transaction pagination by phone (active phone) (BANK,CLIENT)
+    5. Get transaction pagination by profile_name (BANK,CLIENT)
+    6. Filter by: (ADMIN)
+        client_id,cardNumber,cardId, amount (from_amount - to_amount),
+            created_date (from_date, to_date), profile_name,status
+
+    TransactionIfo
+        id,fromCard{id,number,phone,client{id,name,surname}},
+        ToCard{id,number,phone,client{id,name,surname}}, amount,createdDate,Status,
+      Muhim-> cardNumber should be hidden  8600-****-****-1212
+
+4. Log
+ 1. Write logs in every controller
+ 3. Write logs to Transaction
+        1. Write detail log to Transaction part
+            pul o'tkazmasi uchun maydalab log yozing.
+        2. If not enought balance or card status not ACTIVE write detail log.
