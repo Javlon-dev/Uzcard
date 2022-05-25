@@ -69,6 +69,7 @@ public class ClientService {
                 entity.setStatus(EntityStatus.ACTIVE);
             }
         }
+        clientRepository.save(entity);
         return toDTO(entity);
     }
 
@@ -86,8 +87,10 @@ public class ClientService {
         return new PageImpl<>(dtoList, pageable, entityPage.getTotalElements());
     }
 
-    public ClientDTO get(String clientId){
-        return toDTO(getById(clientId));
+    public ClientDTO get(String clientId) {
+        ClientEntity entity = getById(clientId);
+// TODO: 25-May-22
+        return toDTO(entity);
     }
 
     public PageImpl<ClientDTO> paginationListByProfileName(int page, int size, String profileName) {

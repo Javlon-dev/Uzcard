@@ -6,20 +6,19 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CardDTO implements Serializable {
+public class CardDTO extends BaseDTO {
 
-    private Long cardNumber;
+    private String cardNumber;
 
     private LocalDate expiredDate;
 
-    private Long balance = 0L;
+    private Long balance;
 
     private String clientId;
 

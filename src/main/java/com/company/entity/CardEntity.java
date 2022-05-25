@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class CardEntity extends BaseEntity {
 
     @Column(name = "card_number", nullable = false, unique = true)
-    private Long cardNumber;
+    private String cardNumber;
 
     @Column(name = "expired_date", nullable = false)
     private LocalDate expiredDate;

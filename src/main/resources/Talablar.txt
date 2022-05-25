@@ -40,7 +40,7 @@
     1. Create (BANK)
     2. Change Status (BANK) (PROFILE only to block)
     3. Assign Phone (BANK)
-    4. Get Card List by phone (ANY
+    4. Get Card List by phone (ANY)
     5. Get Card List By Client id
     6. Get Card By number
     7. Get Card balance by number
