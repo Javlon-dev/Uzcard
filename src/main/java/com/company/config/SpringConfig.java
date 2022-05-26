@@ -25,9 +25,12 @@ public class SpringConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // authorization
         http.authorizeRequests()
-//                .antMatchers("/client/*").permitAll()
+                .antMatchers("/client/bank").hasRole("bank")
+                .antMatchers("/client/adm").hasRole("admin")
+                .antMatchers("/client/profile").hasRole("profile")
 //                .antMatchers("/adm/*").hasRole("admin")
-//                .antMatchers("/card/*").hasRole("profile")
+                .antMatchers("/card/bank").hasRole("bank")
+                .antMatchers("/card/*").permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic();
         http.csrf().and().cors().disable();

@@ -104,19 +104,22 @@ public class CardService {
         throw new ItemAlreadyExistsException("This card number already exists!");
     }
 
-    public String getBalance(String cardNumber) {
-        CardEntity entity = getByCardNumber(cardNumber);
-        if (Optional.ofNullable(getByCardNumber(cardNumber)).isPresent()) {
+    public String getBalance(CardNumberDTO dto) {
+        CardEntity entity = getByCardNumber(dto.getCardNumber());
+        if (Optional.ofNullable(getByCardNumber(dto.getCardNumber())).isPresent()) {
             String balance = entity.getBalance().toString();
             if (balance.equals("0")) {
                 return "0 sum";
             }
+            if (balance.length() < 2) {
+                return "0,0" + balance + " sum";
+            }
             if (balance.length() < 3) {
-                return balance.substring(0, 0) + " sum";
+                return "0," + balance + " sum";
             }
             return balance.substring(0, balance.length() - 2) + " sum";
         }
-        log.warn("Card number already exists {}", cardNumber);
+        log.warn("Card number already exists {}", dto.getCardNumber());
         throw new ItemAlreadyExistsException("This card number already exists!");
     }
 

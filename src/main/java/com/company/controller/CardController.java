@@ -26,24 +26,24 @@ public class CardController {
 
 
     @ApiOperation(value = "Create", notes = "Method used for create card")
-    @PostMapping("/")
+    @PostMapping("/bank/")
     public ResponseEntity<?> create(@RequestParam @Valid CardDTO dto) {
-        log.info("/");
+        log.info("/bank/");
         return ResponseEntity.ok(cardService.create(dto));
     }
 
     @ApiOperation(value = "Update Status", notes = "Method used for update status")
-    @PutMapping("/status")
+    @PutMapping("/bank/status")
     public ResponseEntity<?> updateStatus(Principal principal) {
-        log.info("/status");
+        log.info("/bank/status");
         return ResponseEntity.ok(cardService.updateStatus(principal.getName()));
     }
 
     @ApiOperation(value = "Assign Phone", notes = "Method used for assign phone")
-    @PutMapping("/phone")
+    @PutMapping("/bank/phone")
     public ResponseEntity<?> assignPhone(@RequestParam @Valid CardNumberDTO dto,
                                          Principal principal) {
-        log.info("/phone");
+        log.info("/bank/phone");
         return ResponseEntity.ok(cardService.assignPhone(dto, principal.getName()));
     }
 
@@ -53,6 +53,14 @@ public class CardController {
                                                 Principal principal) {
         log.info("/phone/{phone}");
         return ResponseEntity.ok(cardService.getCardListByPhone(phone));
+    }
+
+    @ApiOperation(value = "List", notes = "Method used for get balance from card")
+    @GetMapping("/balance}")
+    public ResponseEntity<?> getBalance(@RequestParam @Valid CardNumberDTO dto,
+                                                Principal principal) {
+        log.info("/balance}");
+        return ResponseEntity.ok(cardService.getBalance(dto));
     }
 
     @ApiOperation(value = "List", notes = "Method used for get list by client")
