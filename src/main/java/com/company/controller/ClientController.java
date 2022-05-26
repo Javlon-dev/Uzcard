@@ -28,10 +28,10 @@ public class ClientController {
 
     @ApiOperation(value = "Create", notes = "Method used for create client")
     @PreAuthorize("hasRole('bank')")
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> create(@RequestBody @Valid ClientDTO dto,
                                     Principal principal) {
-        log.info("/");
+        log.info("");
         return ResponseEntity.ok(clientService.create(dto, principal.getName()));
     }
 

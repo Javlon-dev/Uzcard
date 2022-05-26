@@ -1,5 +1,5 @@
 ### Create
-POST http://localhost:8080/api/v1/client/
+POST http://localhost:8080/api/v1/client
 Authorization: Basic bank bankjon
 Content-Type: application/json
 
