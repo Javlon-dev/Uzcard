@@ -1,9 +1,9 @@
 package com.company.service;
 
 import com.company.dto.CardDTO;
+import com.company.dto.CardNumberDTO;
 import com.company.dto.ClientDTO;
 import com.company.entity.CardEntity;
-import com.company.entity.ClientEntity;
 import com.company.enums.EntityStatus;
 import com.company.exception.ItemAlreadyExistsException;
 import com.company.repository.CardRepository;
@@ -46,7 +46,7 @@ public class CardService {
         return toDTO(entity);
     }
 
-    public CardDTO changeStatus(String cardNumber) {
+    public CardDTO updateStatus(String cardNumber) {
         CardEntity entity = getByCardNumber(cardNumber);
 
         switch (entity.getStatus()) {
@@ -64,8 +64,8 @@ public class CardService {
         return toDTO(entity);
     }
 
-    public CardDTO assignPhone(String cardNumber, String clientId) {
-        CardEntity entity = getByCardNumber(cardNumber);
+    public CardDTO assignPhone(CardNumberDTO dto, String clientId) {
+        CardEntity entity = getByCardNumber(dto.getCardNumber());
 
         entity.setExpiredDate(LocalDate.parse(expirationYear));
         entity.setStatus(EntityStatus.ACTIVE);
@@ -95,12 +95,12 @@ public class CardService {
                 .toList();
     }
 
-    public CardDTO get(String cardNumber) {
-        CardEntity entity = getByCardNumber(cardNumber);
-        if (Optional.ofNullable(getByCardNumber(cardNumber)).isPresent()) {
+    public CardDTO get(CardNumberDTO dto) {
+        CardEntity entity = getByCardNumber(dto.getCardNumber());
+        if (Optional.ofNullable(getByCardNumber(dto.getCardNumber())).isPresent()) {
             return toDTO(entity);
         }
-        log.warn("Card number already exists {}", cardNumber);
+        log.warn("Card number already exists {}", dto.getCardNumber());
         throw new ItemAlreadyExistsException("This card number already exists!");
     }
 
