@@ -12,9 +12,9 @@
 11. Heroku
 ****** entity ******
 1. Client
-     name,surname,middleName,created_date, phone, status,profile_name
+     name,surname,middleName,created_date, phone, status,profile_user_name
 2. Card
-    id,number,expired_date,phone,status,created_date,balance, Client, profile_name
+    id,number,expired_date,phone,status,created_date,balance, Client, profile_user_name
 3. Transactions
     id,fromCard,ToCard,amount,createdDate,Status,
 
@@ -33,18 +33,18 @@
     3. Change Status (BANK)
     4. Change Phone (BANK)
     5. Client pagination (ADMIN)
-    6. Get By Id (ADMIN)(PROFILE if client was created by this profile)
-    7. Get Profile Client List (PROFILE)
+    6. Get Client By Id (ADMIN) (BANK murojat qilsa shu CLIENT ni shu BANK create qilgan bo'lishi kerak)
+    7. Get Profile Client List Pagination (PROFILE) (murojat qilgan profile ning Client lari)
 
 2. Card
     1. Create (BANK)
     2. Change Status (BANK) (PROFILE only to block)
     3. Assign Phone (BANK)
     4. Get Card List by phone (ANY)
-    5. Get Card List By Client id
-    6. Get Card By number
-    7. Get Card balance by number
-    8. Filter (phone,card_number,exp_date,created_date, balance,profile_name,status,client_id,client_name, client_status)
+    5. Get Card List By Client id (ADMIN)
+    6. Get Card By number (ANY)
+    7. Get Card balance by number (ANY)
+    8. Filter (phone,card_number,exp_date,created_date, balance,profile_name,status,client_id,client_name, client_status) (ADMIN)
 
 3. Transaction
     1. Create (BANK)

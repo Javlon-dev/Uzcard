@@ -1,0 +1,50 @@
+### Create
+POST http://localhost:8080/api/v1/client/
+Authorization: Basic bank bankjon
+Content-Type: application/json
+
+{
+  "name": "ali",
+  "surname": "aliyev",
+  "phone": "+998991234567"
+}
+
+### Update Bio
+PUT http://localhost:8080/api/v1/client/bio/8a8a839980ffbd9d0180ffbe4b300000
+Authorization: Basic bank bankjon
+Content-Type: application/json
+
+{
+  "name": "Ali",
+  "surname": "Aliyev"
+}
+
+### Update Phone
+PUT http://localhost:8080/api/v1/client/phone/8a8a839980ff25200180ff25536a0000
+Authorization: Basic bank bankjon
+Content-Type: application/json
+
+{
+  "phone": "+998991234568"
+}
+
+### Update Status
+PUT http://localhost:8080/api/v1/client/status/8a8a839980ff25200180ff25536a0000
+Authorization: Basic bank bankjon
+Content-Type: application/json
+
+{
+  "status": "BLOCK"
+}
+
+### List
+GET http://localhost:8080/api/v1/client/list
+Authorization: Basic admin adminjon
+
+### List By Profile
+GET http://localhost:8080/api/v1/client/list/bank
+Authorization: Basic profile profilejon
+
+### Get By Client
+GET http://localhost:8080/api/v1/client/8a8a839980ff25200180ff25536a0000
+Authorization: Basic profile profilejon

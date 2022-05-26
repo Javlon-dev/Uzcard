@@ -1,0 +1,49 @@
+### Create
+POST http://localhost:8080/api/v1/card
+Authorization: Basic bank bankjon
+
+### Update Status
+PUT http://localhost:8080/api/v1/card/status
+Authorization: Basic bank bankjon
+Content-Type: application/json
+
+{
+  "cardNumber": "8600814069764408",
+  "status": "INACTIVE"
+}
+
+### Assign Phone
+PUT http://localhost:8080/api/v1/card/phone/8a8a839980ffbd9d0180ffbe4b300000
+Authorization: Basic bank bankjon
+Content-Type: application/json
+
+{
+  "cardNumber": "8600814069764408"
+}
+
+### List
+GET http://localhost:8080/api/v1/card/list/+998991234567
+Authorization: Basic admin adminjon
+
+### Card Balance
+GET http://localhost:8080/api/v1/card/balance
+Authorization: Basic admin adminjon
+Content-Type: application/json
+
+{
+  "cardNumber": "8600814069764408"
+}
+
+### List By Client
+GET http://localhost:8080/api/v1/card/client/8a8a839980ffbd9d0180ffbe4b300000
+Authorization: Basic admin adminjon
+
+### Get By CardNumber
+GET http://localhost:8080/api/v1/card
+Authorization: Basic profile profilejon
+Content-Type: application/json
+
+{
+  "cardNumber": "8600814069764408"
+}
+

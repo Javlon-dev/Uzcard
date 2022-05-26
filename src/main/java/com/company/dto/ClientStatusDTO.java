@@ -6,28 +6,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDate;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CardDTO extends BaseDTO {
+public class ClientStatusDTO {
 
-    private String cardNumber;
-
-    private LocalDate expiredDate;
-
-    private Long balance;
-
-    private String cash;
-
-    private String clientId;
-
-    private ClientDTO client;
-
+    @NotNull(message = "Status not be null")
     private EntityStatus status;
-
-    private Boolean visible;
 
 }

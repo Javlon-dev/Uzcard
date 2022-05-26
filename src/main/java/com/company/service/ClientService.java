@@ -3,6 +3,7 @@ package com.company.service;
 import com.company.dto.ClientBioDTO;
 import com.company.dto.ClientDTO;
 import com.company.dto.ClientPhoneDTO;
+import com.company.dto.ClientStatusDTO;
 import com.company.entity.ClientEntity;
 import com.company.enums.EntityStatus;
 import com.company.exception.ItemNotFoundException;
@@ -27,14 +28,15 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
 
-    public ClientDTO create(ClientDTO dto) {
+    public ClientDTO create(ClientDTO dto, String profileName) {
         ClientEntity entity = new ClientEntity();
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setPhone(dto.getPhone());
         entity.setStatus(EntityStatus.ACTIVE);
-        entity.setProfileName(dto.getProfileName());
+        entity.setProfileName(profileName);
 
+        clientRepository.save(entity);
         return toDTO(entity);
     }
 
@@ -44,6 +46,7 @@ public class ClientService {
         entity.setSurname(dto.getSurname());
         entity.setUpdatedDate(LocalDateTime.now());
 
+        clientRepository.save(entity);
         return toDTO(entity);
     }
 
@@ -52,23 +55,19 @@ public class ClientService {
         entity.setPhone(dto.getPhone());
         entity.setUpdatedDate(LocalDateTime.now());
 
+        clientRepository.save(entity);
         return toDTO(entity);
     }
 
-    public ClientDTO updateStatus(String clientId) {
+    public ClientDTO updateStatus(ClientStatusDTO dto, String clientId) {
         ClientEntity entity = getById(clientId);
 
-        switch (entity.getStatus()) {
-            case ACTIVE -> {
-                entity.setStatus(EntityStatus.NONACTIVE);
-            }
-            case NONACTIVE -> {
-                entity.setStatus(EntityStatus.BLOCK);
-            }
-            case BLOCK -> {
-                entity.setStatus(EntityStatus.ACTIVE);
-            }
+        if (dto.getStatus().equals(entity.getStatus())) {
+            return toDTO(entity);
         }
+
+        entity.setStatus(dto.getStatus());
+
         clientRepository.save(entity);
         return toDTO(entity);
     }
@@ -87,16 +86,27 @@ public class ClientService {
         return new PageImpl<>(dtoList, pageable, entityPage.getTotalElements());
     }
 
-    public ClientDTO get(String clientId) {
-        ClientEntity entity = getById(clientId);
-// TODO: 25-May-22
+    public ClientDTO get(String clientId, String profileName) {
+        ClientEntity entity;
+        if (profileName.equals("profile")) {
+            entity = clientRepository
+                    .findByIdAndProfileName(clientId, profileName)
+                    .orElseThrow(() -> {
+                        log.warn("Not found");
+                        return new ItemNotFoundException("Not found!");
+                    });
+
+            return toDTO(entity);
+        }
+        entity = getById(clientId);
+
         return toDTO(entity);
     }
 
     public PageImpl<ClientDTO> paginationListByProfileName(int page, int size, String profileName) {
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<ClientEntity> entityPage = clientRepository.findAll(pageable);
+        Page<ClientEntity> entityPage = clientRepository.findAllByProfileName(pageable, profileName);
 
         List<ClientDTO> dtoList = new ArrayList<>();
 
@@ -120,7 +130,7 @@ public class ClientService {
         ClientDTO dto = new ClientDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
-        dto.setSurname(dto.getSurname());
+        dto.setSurname(entity.getSurname());
         dto.setPhone(entity.getPhone());
         dto.setStatus(entity.getStatus());
         dto.setProfileName(entity.getProfileName());

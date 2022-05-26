@@ -2,6 +2,7 @@ package com.company.service;
 
 import com.company.dto.CardDTO;
 import com.company.dto.CardNumberDTO;
+import com.company.dto.CardStatusDTO;
 import com.company.dto.ClientDTO;
 import com.company.entity.CardEntity;
 import com.company.enums.EntityStatus;
@@ -41,25 +42,29 @@ public class CardService {
 
         CardEntity entity = new CardEntity();
         entity.setCardNumber(cardNumber);
+        entity.setStatus(EntityStatus.INACTIVE);
 
         cardRepository.save(entity);
         return toDTO(entity);
     }
 
-    public CardDTO updateStatus(String cardNumber) {
-        CardEntity entity = getByCardNumber(cardNumber);
+    public CardDTO updateStatus(CardStatusDTO dto, String profileName) {
+        CardEntity entity = getByCardNumber(dto.getCardNumber());
 
-        switch (entity.getStatus()) {
-            case ACTIVE -> {
-                entity.setStatus(EntityStatus.NONACTIVE);
-            }
-            case NONACTIVE -> {
-                entity.setStatus(EntityStatus.BLOCK);
-            }
-            case BLOCK -> {
-                entity.setStatus(EntityStatus.ACTIVE);
-            }
+        if (entity.getStatus().equals(dto.getStatus())) {
+            return toDTO(entity);
         }
+
+        if (profileName.equals("profile")) {
+            switch (entity.getStatus()) {
+                case ACTIVE -> entity.setStatus(EntityStatus.BLOCK);
+                case BLOCK -> entity.setStatus(EntityStatus.ACTIVE);
+            }
+            cardRepository.save(entity);
+            return toDTO(entity);
+        }
+
+        entity.setStatus(dto.getStatus());
         cardRepository.save(entity);
         return toDTO(entity);
     }
@@ -67,7 +72,7 @@ public class CardService {
     public CardDTO assignPhone(CardNumberDTO dto, String clientId) {
         CardEntity entity = getByCardNumber(dto.getCardNumber());
 
-        entity.setExpiredDate(LocalDate.parse(expirationYear));
+        entity.setExpiredDate(LocalDate.now().plusYears(Long.parseLong(expirationYear)));
         entity.setStatus(EntityStatus.ACTIVE);
         entity.setClientId(clientId);
 
@@ -107,20 +112,24 @@ public class CardService {
     public String getBalance(CardNumberDTO dto) {
         CardEntity entity = getByCardNumber(dto.getCardNumber());
         if (Optional.ofNullable(getByCardNumber(dto.getCardNumber())).isPresent()) {
-            String balance = entity.getBalance().toString();
-            if (balance.equals("0")) {
-                return "0 sum";
-            }
-            if (balance.length() < 2) {
-                return "0,0" + balance + " sum";
-            }
-            if (balance.length() < 3) {
-                return "0," + balance + " sum";
-            }
-            return balance.substring(0, balance.length() - 2) + " sum";
+            return balanceToSum(entity.getBalance());
         }
         log.warn("Card number already exists {}", dto.getCardNumber());
         throw new ItemAlreadyExistsException("This card number already exists!");
+    }
+
+    public String balanceToSum(Long balance) {
+        String cash = balance.toString();
+        if (cash.equals("0")) {
+            return "0 sum";
+        }
+        if (cash.length() <= 2) {
+            return "0,0" + balance + " sum";
+        }
+        if (cash.length() <= 3) {
+            return "0," + balance + " sum";
+        }
+        return cash.substring(0, cash.length() - 2) + "," + cash.substring(cash.length() - 2) + " sum";
     }
 
     public CardEntity getByCardNumber(String cardNumber) {
@@ -130,21 +139,23 @@ public class CardService {
     }
 
     public CardDTO toDTO(CardEntity entity) {
-        StringBuilder builder = new StringBuilder(entity.getCardNumber().substring(0, 4));
-        builder.append("********").append(entity.getCardNumber(), builder.length(), entity.getCardNumber().length() - 1);
+//        StringBuilder builder = new StringBuilder(entity.getCardNumber().substring(0, 4));
+//        builder.append("********").append(entity.getCardNumber(), builder.length(), entity.getCardNumber().length());
 
         CardDTO dto = new CardDTO();
         dto.setId(entity.getId());
-        dto.setCardNumber(builder.toString());
+        dto.setCardNumber(entity.getCardNumber());
         dto.setExpiredDate(entity.getExpiredDate());
         dto.setStatus(entity.getStatus());
-        dto.setBalance(entity.getBalance());
+        dto.setCash(balanceToSum(entity.getBalance()));
 
-        ClientDTO clientDTO = new ClientDTO();
-        clientDTO.setName(entity.getClient().getName());
-        clientDTO.setSurname(entity.getClient().getSurname());
+        if (Optional.ofNullable(entity.getClient()).isPresent()) {
+            ClientDTO clientDTO = new ClientDTO();
+            clientDTO.setName(entity.getClient().getName());
+            clientDTO.setSurname(entity.getClient().getSurname());
+            dto.setClient(clientDTO);
+        }
 
-        dto.setClient(clientDTO);
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
     }
