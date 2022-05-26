@@ -7,6 +7,7 @@ import com.company.dto.ClientDTO;
 import com.company.entity.CardEntity;
 import com.company.enums.EntityStatus;
 import com.company.exception.ItemAlreadyExistsException;
+import com.company.exception.ItemNotFoundException;
 import com.company.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -105,8 +106,8 @@ public class CardService {
         if (Optional.ofNullable(getByCardNumber(dto.getCardNumber())).isPresent()) {
             return toDTO(entity);
         }
-        log.warn("Card number already exists {}", dto.getCardNumber());
-        throw new ItemAlreadyExistsException("This card number already exists!");
+        log.warn("Card Not found {}", dto.getCardNumber());
+        throw new ItemNotFoundException("Card Not found!");
     }
 
     public String getBalance(CardNumberDTO dto) {
@@ -114,8 +115,8 @@ public class CardService {
         if (Optional.ofNullable(getByCardNumber(dto.getCardNumber())).isPresent()) {
             return balanceToSum(entity.getBalance());
         }
-        log.warn("Card number already exists {}", dto.getCardNumber());
-        throw new ItemAlreadyExistsException("This card number already exists!");
+        log.warn("Card Not found {}", dto.getCardNumber());
+        throw new ItemNotFoundException("Card Not found!");
     }
 
     public String balanceToSum(Long balance) {
@@ -139,9 +140,6 @@ public class CardService {
     }
 
     public CardDTO toDTO(CardEntity entity) {
-//        StringBuilder builder = new StringBuilder(entity.getCardNumber().substring(0, 4));
-//        builder.append("********").append(entity.getCardNumber(), builder.length(), entity.getCardNumber().length());
-
         CardDTO dto = new CardDTO();
         dto.setId(entity.getId());
         dto.setCardNumber(entity.getCardNumber());

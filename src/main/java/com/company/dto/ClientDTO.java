@@ -2,10 +2,7 @@ package com.company.dto;
 
 import com.company.enums.EntityStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -14,6 +11,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
 public class ClientDTO extends BaseDTO {
 
     @NotBlank(message = "Name required")
@@ -29,4 +27,10 @@ public class ClientDTO extends BaseDTO {
 
     private String profileName;
 
+    public ClientDTO(String id,String name, String surname, String phone) {
+        super.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+    }
 }

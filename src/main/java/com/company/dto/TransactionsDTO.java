@@ -6,19 +6,23 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TransactionsDTO implements Serializable {
+public class TransactionsDTO extends BaseDTO {
 
-    private String fromCard;
+    private String fromCardNumber;
 
-    private String toCard;
+    private String toCardNumber;
+
+    private CardDTO fromCard;
+
+    private CardDTO toCard;
 
     private Long amount;
+
+    private String cash;
 
     private TransactionsStatus status;
 
