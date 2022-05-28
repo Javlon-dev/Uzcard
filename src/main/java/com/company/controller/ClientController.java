@@ -31,7 +31,7 @@ public class ClientController {
     @PostMapping("")
     public ResponseEntity<?> create(@RequestBody @Valid ClientDTO dto,
                                     Principal principal) {
-        log.info("");
+        log.info("{}", dto);
         return ResponseEntity.ok(clientService.create(dto, principal.getName()));
     }
 

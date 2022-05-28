@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TransactionsDTO extends BaseDTO {
+public class TransactionDTO extends BaseDTO {
 
     private String fromCardNumber;
 

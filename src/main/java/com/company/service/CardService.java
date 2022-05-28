@@ -1,14 +1,12 @@
 package com.company.service;
 
-import com.company.dto.CardDTO;
-import com.company.dto.CardNumberDTO;
-import com.company.dto.CardStatusDTO;
-import com.company.dto.ClientDTO;
+import com.company.dto.*;
 import com.company.entity.CardEntity;
 import com.company.enums.EntityStatus;
 import com.company.exception.ItemAlreadyExistsException;
 import com.company.exception.ItemNotFoundException;
 import com.company.repository.CardRepository;
+import com.company.repository.custom.CardCustomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +24,7 @@ import java.util.Random;
 public class CardService {
 
     private final CardRepository cardRepository;
+    private final CardCustomRepository cardCustomRepository;
 
     @Value("${message.card.type}")
     private String cardType;
@@ -132,6 +131,11 @@ public class CardService {
         }
         return cash.substring(0, cash.length() - 2) + "," + cash.substring(cash.length() - 2) + " sum";
     }
+
+    public List<CardDTO> filter(CardFilterDTO dto){
+        return cardCustomRepository.filter(dto);
+    }
+
 
     public CardEntity getByCardNumber(String cardNumber) {
         return cardRepository

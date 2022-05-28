@@ -1,6 +1,6 @@
 package com.company.repository;
 
-import com.company.entity.TransactionsEntity;
+import com.company.entity.TransactionEntity;
 import com.company.mapper.TransactionsInfoMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,14 +10,14 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface TransactionsRepository extends JpaRepository<TransactionsEntity, String> {
+public interface TransactionRepository extends JpaRepository<TransactionEntity, String> {
 
     @Query("select t.id as t_id, t.amount as t_amount, t.createdDate as t_created_date, t.status as t_status," +
             "cf.id as cf_id, cf.cardNumber as cf_number," +
             "clf.id as clf_id, clf.name as clf_name, clf.surname as clf_surname, clf.phone as clf_phone," +
             "ct.id as ct_id, ct.cardNumber as ct_number," +
             "clt.id as clt_id, clt.name as clt_name, clt.surname as clt_surname, clt.phone as clt_phone " +
-            "from TransactionsEntity t " +
+            "from TransactionEntity t " +
             "inner join CardEntity cf on t.fromCard = cf.cardNumber " +
             "inner join CardEntity ct on t.toCard = ct.cardNumber " +
             "inner join cf.client clf " +
@@ -32,7 +32,7 @@ public interface TransactionsRepository extends JpaRepository<TransactionsEntity
             "clf.id as clf_id, clf.name as clf_name, clf.surname as clf_surname, clf.phone as clf_phone," +
             "ct.id as ct_id, ct.cardNumber as ct_number," +
             "clt.id as clt_id, clt.name as clt_name, clt.surname as clt_surname, clt.phone as clt_phone " +
-            "from TransactionsEntity t " +
+            "from TransactionEntity t " +
             "inner join CardEntity cf on t.fromCard = cf.cardNumber " +
             "inner join CardEntity ct on t.toCard = ct.cardNumber " +
             "inner join cf.client clf " +
@@ -47,7 +47,7 @@ public interface TransactionsRepository extends JpaRepository<TransactionsEntity
             "clf.id as clf_id, clf.name as clf_name, clf.surname as clf_surname, clf.phone as clf_phone," +
             "ct.id as ct_id, ct.cardNumber as ct_number," +
             "clt.id as clt_id, clt.name as clt_name, clt.surname as clt_surname, clt.phone as clt_phone " +
-            "from TransactionsEntity t " +
+            "from TransactionEntity t " +
             "inner join CardEntity cf on t.fromCard = cf.cardNumber " +
             "inner join CardEntity ct on t.toCard = ct.cardNumber " +
             "inner join cf.client clf " +
@@ -62,7 +62,7 @@ public interface TransactionsRepository extends JpaRepository<TransactionsEntity
             "clf.id as clf_id, clf.name as clf_name, clf.surname as clf_surname, clf.phone as clf_phone," +
             "ct.id as ct_id, ct.cardNumber as ct_number," +
             "clt.id as clt_id, clt.name as clt_name, clt.surname as clt_surname, clt.phone as clt_phone " +
-            "from TransactionsEntity t " +
+            "from TransactionEntity t " +
             "inner join CardEntity cf on t.fromCard = cf.cardNumber " +
             "inner join CardEntity ct on t.toCard = ct.cardNumber " +
             "inner join cf.client clf " +
@@ -77,7 +77,7 @@ public interface TransactionsRepository extends JpaRepository<TransactionsEntity
             "clf.id as clf_id, clf.name as clf_name, clf.surname as clf_surname, clf.phone as clf_phone," +
             "ct.id as ct_id, ct.cardNumber as ct_number," +
             "clt.id as clt_id, clt.name as clt_name, clt.surname as clt_surname, clt.phone as clt_phone " +
-            "from TransactionsEntity t " +
+            "from TransactionEntity t " +
             "inner join CardEntity cf on t.fromCard = cf.cardNumber " +
             "inner join CardEntity ct on t.toCard = ct.cardNumber " +
             "inner join cf.client clf " +

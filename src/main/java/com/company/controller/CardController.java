@@ -27,7 +27,7 @@ public class CardController {
     @PreAuthorize("hasRole('bank')")
     @PostMapping("")
     public ResponseEntity<?> create(@RequestBody @Valid CardDTO dto) {
-        log.info("");
+        log.info("{}", dto);
         return ResponseEntity.ok(cardService.create(dto));
     }
 
@@ -80,5 +80,10 @@ public class CardController {
                                  Principal principal) {
         log.info("");
         return ResponseEntity.ok(cardService.get(dto));
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<?> filter(@RequestBody CardFilterDTO dto) {
+        return ResponseEntity.ok(cardService.filter(dto));
     }
 }

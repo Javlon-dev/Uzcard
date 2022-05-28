@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "transactions")
 @Getter
 @Setter
-public class TransactionsEntity extends BaseEntity{
+public class TransactionEntity extends BaseEntity{
 
     @Column(name = "from_card", nullable = false)
     private String fromCard;
