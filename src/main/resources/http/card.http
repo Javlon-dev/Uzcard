@@ -38,12 +38,25 @@ Content-Type: application/json
 GET http://localhost:8080/api/v1/card/client/8a8a839980ffbd9d0180ffbe4b300000
 Authorization: Basic admin adminjon
 
-### Get By CardNumber
+### Get By Card Number
 GET http://localhost:8080/api/v1/card
 Authorization: Basic profile profilejon
 Content-Type: application/json
 
 {
   "cardNumber": "8600814069764408"
+}
+
+### List By Filter
+GET http://localhost:8080/api/v1/card/filter
+Authorization: Basic admin adminjon
+Content-Type: application/json
+
+{
+  "name": "ALi",
+  "fromBalance": 800,
+  "toBalance": 10000,
+  "expDate": "2027-05-26",
+  "createdDate": "2022-05-26T15:36:14.611000"
 }
 

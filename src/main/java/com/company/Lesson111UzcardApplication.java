@@ -13,9 +13,10 @@ public class Lesson111UzcardApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Lesson111UzcardApplication.class, args);
         String bankCard = context.getEnvironment().getProperty("message.bank.card");
+        String keyWord = context.getEnvironment().getProperty("message.bank.key.word");
         BankRepository repository = context.getBean(BankRepository.class);
         if (Optional.ofNullable(repository.findByBankCardNumber(bankCard)).isEmpty()){
-            repository.bankCard("MAZGI", bankCard);
+            repository.bankCard(keyWord, bankCard);
         }
     }
 

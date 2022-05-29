@@ -83,8 +83,11 @@ public class CardController {
         return ResponseEntity.ok(cardService.get(dto));
     }
 
-    @PostMapping("/filter")
+    @ApiOperation(value = "List By Filter", notes = "Method used for get list by filter")
+    @PreAuthorize("hasRole('admin')")
+    @GetMapping("/filter")
     public ResponseEntity<?> filter(@RequestBody CardFilterDTO dto) {
         return ResponseEntity.ok(cardService.filter(dto));
     }
+
 }

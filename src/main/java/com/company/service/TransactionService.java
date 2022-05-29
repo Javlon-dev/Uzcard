@@ -1,15 +1,15 @@
 package com.company.service;
 
-import com.company.dto.CardDTO;
-import com.company.dto.ClientDTO;
-import com.company.dto.TransactionDTO;
+import com.company.dto.*;
 import com.company.entity.CardEntity;
 import com.company.entity.TransactionEntity;
 import com.company.enums.TransactionsStatus;
 import com.company.exception.AppBadRequestException;
 import com.company.exception.ItemNotFoundException;
+import com.company.mapper.TransactionInfoMapper;
 import com.company.mapper.TransactionsInfoMapper;
 import com.company.repository.TransactionRepository;
+import com.company.repository.custom.TransactionCustomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +30,7 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final CardService cardService;
+    private final TransactionCustomRepository transactionCustomRepository;
 
     @Value("${message.bank.card}")
     private String bankCard;
@@ -152,6 +153,14 @@ public class TransactionService {
         return new PageImpl<>(dtoList, pageable, entityPage.getTotalElements());
     }
 
+    public List<TransactionDTO> filter(TransactionFilterDTO dto) {
+        return transactionCustomRepository
+                .filter(dto)
+                .stream()
+                .map(this::toDTOMapper)
+                .toList();
+    }
+
     public TransactionsInfoMapper getByIdMapper(String id) {
         return transactionRepository
                 .findByIdMapper(id)
@@ -162,6 +171,23 @@ public class TransactionService {
     }
 
     public TransactionDTO toDTOMapper(TransactionsInfoMapper mapper) {
+        TransactionDTO dto = new TransactionDTO();
+
+        dto.setId(mapper.getT_id());
+        dto.setCash(cardService.balanceToSum(mapper.getT_amount()));
+        dto.setStatus(mapper.getT_status());
+        dto.setCreatedDate(mapper.getT_created_date());
+
+        dto.setFromCard(new CardDTO(mapper.getCf_id(), encryptCardNumber(mapper.getCf_number()),
+                new ClientDTO(mapper.getClf_id(), mapper.getClf_name(), mapper.getClf_surname(), mapper.getClf_phone())));
+
+        dto.setToCard(new CardDTO(mapper.getCt_id(), encryptCardNumber(mapper.getCt_number()),
+                new ClientDTO(mapper.getClt_id(), mapper.getClt_name(), mapper.getClt_surname(), mapper.getClt_phone())));
+
+        return dto;
+    }
+
+    public TransactionDTO toDTOMapper(TransactionInfoMapper mapper) {
         TransactionDTO dto = new TransactionDTO();
 
         dto.setId(mapper.getT_id());

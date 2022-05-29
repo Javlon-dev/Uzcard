@@ -1,8 +1,6 @@
 package com.company.controller;
 
-import com.company.dto.CardNumberDTO;
-import com.company.dto.ClientPhoneDTO;
-import com.company.dto.TransactionDTO;
+import com.company.dto.*;
 import com.company.service.TransactionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -84,6 +82,13 @@ public class TransactionController {
                                                                     @PathVariable("profileName") String profileName) {
         log.info("/profile/{profileName} {}", profileName);
         return ResponseEntity.ok(transactionService.paginationListByProfileNameTransaction(page, size, profileName));
+    }
+
+    @ApiOperation(value = "List By Filter", notes = "Method used for get list by filter")
+    @PreAuthorize("hasRole('admin')")
+    @GetMapping("/filter")
+    public ResponseEntity<?> filter(@RequestBody TransactionFilterDTO dto) {
+        return ResponseEntity.ok(transactionService.filter(dto));
     }
 
 }

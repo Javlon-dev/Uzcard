@@ -101,15 +101,6 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
             "where t.id = :id ")
     Optional<TransactionsInfoMapper> findByIdMapper(@Param("id") String id);
 
-    /*@Modifying
-    @Transactional
-    @Query(value = "update card set balance = balance - :amount where card_number = :fromCardNumber ;",
-//            "update card c set c.balance = c.balance + :amount where c.card_number = :toCardNumber;" +
-//            "update card c set c.balance = c.balance + :percent where c.card_number = :bankCard;",
-            nativeQuery = true)
-    void updateAmount(@Param("fromCardNumber") String fromCardNumber,
-                      @Param("amount") Long amount);*/
-
     @Modifying
     @Transactional
     @Query(value = "update card set balance = balance - (:amount + :percent) where card_number = :fromCardNumber ; " +

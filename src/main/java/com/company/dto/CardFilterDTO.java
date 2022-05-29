@@ -6,19 +6,35 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CardFilterDTO {
 
-    private String clientId;
-    private String cardNumber;
-    private String cardId;
+    private String phone;
 
-    private Long fromAmount;
-    private Long toAmount;
+    private String cardNumber;
+
+    private LocalDate expDate;
+
+    private LocalDateTime createdDate;
+
+    private Long fromBalance;
+
+    private Long toBalance;
+
     private String profileName;
+
     private EntityStatus status;
+
+    private String clientId;
+
+    private String clientName;
+
+    private EntityStatus clientStatus;
 
 }

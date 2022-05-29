@@ -38,3 +38,13 @@ Authorization: Basic bank bankjon
 ### List By Profile Name From Transaction
 GET http://localhost:8080/api/v1/transaction/bank
 Authorization: Basic bank bankjon
+
+### List By Filter
+GET http://localhost:8080/api/v1/transaction/filter
+Authorization: Basic admin adminjon
+Content-Type: application/json
+
+{
+  "fromDate": "2022-05-28",
+  "toDate": "2022-05-30"
+}
