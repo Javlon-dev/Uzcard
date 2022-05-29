@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,9 +27,9 @@ public class CardController {
     @ApiOperation(value = "Create", notes = "Method used for create card")
     @PreAuthorize("hasRole('bank')")
     @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody @Valid CardDTO dto) {
-        log.info("{}", dto);
-        return ResponseEntity.ok(cardService.create(dto));
+    public ResponseEntity<?> create(User user) {
+        log.info("user={}", user.getUsername());
+        return ResponseEntity.ok(cardService.create());
     }
 
     @ApiOperation(value = "Update Status", notes = "Method used for update status")
@@ -62,7 +63,7 @@ public class CardController {
     @GetMapping("/balance")
     public ResponseEntity<?> getBalance(@RequestBody @Valid CardNumberDTO dto) {
         log.info("/balance");
-        return ResponseEntity.ok(cardService.getBalance(dto));
+        return ResponseEntity.ok(cardService.getBalance(dto.getCardNumber()));
     }
 
     @ApiOperation(value = "List By Client", notes = "Method used for get list by client")

@@ -8,17 +8,17 @@ Authorization: Basic bank bankjon
 Content-Type: application/json
 
 {
-  "cardNumber": "8600814069764408",
-  "status": "INACTIVE"
+  "cardNumber": "8600324432080802",
+  "status": "ACTIVE"
 }
 
 ### Assign Phone
-PUT http://localhost:8080/api/v1/card/phone/8a8a839980ffbd9d0180ffbe4b300000
+PUT http://localhost:8080/api/v1/card/phone/8a8a839980ff25200180ff25536a0000
 Authorization: Basic bank bankjon
 Content-Type: application/json
 
 {
-  "cardNumber": "8600814069764408"
+  "cardNumber": "8600324432080802"
 }
 
 ### List

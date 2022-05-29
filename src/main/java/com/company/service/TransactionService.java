@@ -12,6 +12,7 @@ import com.company.mapper.TransactionsInfoMapper;
 import com.company.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -30,10 +31,19 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final CardService cardService;
 
+    @Value("${message.bank.card}")
+    private String bankCard;
+
+    @Value("${message.card.percent}")
+    private String percent;
+
 
     public TransactionDTO create(TransactionDTO dto, String profileName) {
-        CardEntity fromCard = cardService.getByCardNumber(dto.getFromCardNumber());
-        CardEntity toCard = cardService.getByCardNumber(dto.getToCardNumber());
+        CardEntity fromCard = cardService.getByCardNumberActive(dto.getFromCardNumber());
+        CardEntity toCard = cardService.getByCardNumberActive(dto.getToCardNumber());
+
+        dto.setAmount(Long.parseLong(dto.getAmount() + "00")); // to sum
+        long bankAmount = (dto.getAmount() / 100) * Long.parseLong(percent);
 
         if (Optional.ofNullable(fromCard).isEmpty()
                 || Optional.ofNullable(toCard).isEmpty()) {
@@ -41,14 +51,17 @@ public class TransactionService {
             throw new ItemNotFoundException("Card Not found!");
         }
 
-        if(fromCard.getCardNumber().equals(toCard.getCardNumber())){
+        if (fromCard.getCardNumber().equals(toCard.getCardNumber())) {
             log.warn("Equals Card Numbers fromCard={} toCard={}", fromCard.getCardNumber(), toCard.getCardNumber());
             throw new AppBadRequestException("Equals Card Numbers!");
         }
 
-        if (fromCard.getBalance() < dto.getAmount()) {
+        if (fromCard.getBalance() < dto.getAmount() + bankAmount) {
             log.warn("Not enough money {}", fromCard.getCardNumber());
-            throw new AppBadRequestException("Not enough money!");
+            throw new AppBadRequestException("Not enough money!" +
+                    " Transfer Money With Percentage: " + cardService.balanceToSum(dto.getAmount() + bankAmount) +
+                    " Your Card Balance: " +
+                    cardService.balanceToSum(fromCard.getBalance()));
         }
 
 
@@ -61,13 +74,18 @@ public class TransactionService {
 
         transactionRepository.save(entity);
 
+        transactionRepository.updateAmount(entity.getFromCard(), entity.getToCard(), dto.getAmount(),
+                bankCard, bankAmount);
+
+//        transactionRepository.updateAmount(entity.getFromCard(), entity.getAmount());
+
         return toDTOMapper(getByIdMapper(entity.getId()));
     }
 
-    public PageImpl<TransactionDTO> paginationListByCardId(int page, int size, String cardId) {
+    public PageImpl<TransactionDTO> paginationListByCardId(int page, int size, String cardNumber) {
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<TransactionsInfoMapper> entityPage = transactionRepository.findAllByCardId(pageable, cardId);
+        Page<TransactionsInfoMapper> entityPage = transactionRepository.findAllByCardNumber(pageable, cardNumber);
 
         List<TransactionDTO> dtoList = new ArrayList<>();
 
@@ -106,10 +124,24 @@ public class TransactionService {
         return new PageImpl<>(dtoList, pageable, entityPage.getTotalElements());
     }
 
-    public PageImpl<TransactionDTO> paginationListByProfileName(int page, int size, String profileName) {
+    public PageImpl<TransactionDTO> paginationListByProfileNameClient(int page, int size, String profileName) {
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<TransactionsInfoMapper> entityPage = transactionRepository.findAllByProfileName(pageable, profileName);
+        Page<TransactionsInfoMapper> entityPage = transactionRepository.findAllByProfileNameClient(pageable, profileName);
+
+        List<TransactionDTO> dtoList = new ArrayList<>();
+
+        entityPage.forEach(mapper -> {
+            dtoList.add(toDTOMapper(mapper));
+        });
+
+        return new PageImpl<>(dtoList, pageable, entityPage.getTotalElements());
+    }
+
+    public PageImpl<TransactionDTO> paginationListByProfileNameTransaction(int page, int size, String profileName) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<TransactionsInfoMapper> entityPage = transactionRepository.findAllByProfileNameTransaction(pageable, profileName);
 
         List<TransactionDTO> dtoList = new ArrayList<>();
 

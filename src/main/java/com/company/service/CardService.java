@@ -3,6 +3,7 @@ package com.company.service;
 import com.company.dto.*;
 import com.company.entity.CardEntity;
 import com.company.enums.EntityStatus;
+import com.company.exception.AppBadRequestException;
 import com.company.exception.ItemAlreadyExistsException;
 import com.company.exception.ItemNotFoundException;
 import com.company.repository.CardRepository;
@@ -33,7 +34,7 @@ public class CardService {
     private String expirationYear;
 
 
-    public CardDTO create(CardDTO dto) {
+    public CardDTO create() {
         String cardNumber = cardType + new Random().nextLong(1000_0000_0000L, 9999_9999_9999L);
         if (Optional.ofNullable(getByCardNumber(cardNumber)).isPresent()) {
             log.warn("Card number already exists {}", cardNumber);
@@ -109,12 +110,12 @@ public class CardService {
         throw new ItemNotFoundException("Card Not found!");
     }
 
-    public String getBalance(CardNumberDTO dto) {
-        CardEntity entity = getByCardNumber(dto.getCardNumber());
-        if (Optional.ofNullable(getByCardNumber(dto.getCardNumber())).isPresent()) {
+    public String getBalance(String cardNumber) {
+        CardEntity entity = getByCardNumber(cardNumber);
+        if (Optional.ofNullable(getByCardNumber(cardNumber)).isPresent()) {
             return balanceToSum(entity.getBalance());
         }
-        log.warn("Card Not found {}", dto.getCardNumber());
+        log.warn("Card Not found {}", cardNumber);
         throw new ItemNotFoundException("Card Not found!");
     }
 
@@ -132,15 +133,24 @@ public class CardService {
         return cash.substring(0, cash.length() - 2) + "," + cash.substring(cash.length() - 2) + " sum";
     }
 
-    public List<CardDTO> filter(CardFilterDTO dto){
+    public List<CardDTO> filter(CardFilterDTO dto) {
         return cardCustomRepository.filter(dto);
     }
 
 
     public CardEntity getByCardNumber(String cardNumber) {
         return cardRepository
-                .findByCardNumber(cardNumber)
+                .findByCardNumberAndVisible(cardNumber, true)
                 .orElse(null);
+    }
+
+    public CardEntity getByCardNumberActive(String cardNumber) {
+        return cardRepository
+                .findByCardNumberAndVisibleAndStatus(cardNumber, true, EntityStatus.ACTIVE)
+                .orElseThrow(() -> {
+                    log.warn("Inactive Card {}", cardNumber);
+                    throw new AppBadRequestException("Inactive Card!");
+                });
     }
 
     public CardDTO toDTO(CardEntity entity) {

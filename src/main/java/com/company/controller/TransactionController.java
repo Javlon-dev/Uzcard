@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.dto.CardNumberDTO;
 import com.company.dto.ClientPhoneDTO;
 import com.company.dto.TransactionDTO;
 import com.company.service.TransactionService;
@@ -27,7 +28,7 @@ public class TransactionController {
     @ApiOperation(value = "Create", notes = "Method used for create transaction")
     @PreAuthorize("hasRole('bank')")
     @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody TransactionDTO dto,
+    public ResponseEntity<?> create(@RequestBody @Valid TransactionDTO dto,
                                     Principal principal) {
         log.info("{}", dto);
         return ResponseEntity.ok(transactionService.create(dto, principal.getName()));
@@ -35,12 +36,12 @@ public class TransactionController {
 
     @ApiOperation(value = "List By Card", notes = "Method used for get pagination list by card id")
     @PreAuthorize("hasRole('bank')")
-    @GetMapping("/card/{cardId}")
+    @GetMapping("/card")
     public ResponseEntity<?> paginationListByCardId(@RequestParam(value = "page", defaultValue = "0") int page,
                                                     @RequestParam(value = "size", defaultValue = "5") int size,
-                                                    @PathVariable("cardId") String cardId) {
-        log.info("/card/{cardId} {}", cardId);
-        return ResponseEntity.ok(transactionService.paginationListByCardId(page, size, cardId));
+                                                    @RequestBody @Valid CardNumberDTO dto) {
+        log.info("/card {}", dto);
+        return ResponseEntity.ok(transactionService.paginationListByCardId(page, size, dto.getCardNumber()));
     }
 
     @ApiOperation(value = "List By Client", notes = "Method used for get pagination list by client id")
@@ -63,14 +64,26 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.paginationListByPhone(page, size, dto.getPhone()));
     }
 
-    @ApiOperation(value = "List By Profile Name", notes = "Method used for get pagination list by profile name")
+    @ApiOperation(value = "List By Profile Name From Client",
+            notes = "Method used for get pagination list by profile name from client")
     @PreAuthorize("hasRole('bank')")
     @GetMapping("/profile/{profileName}")
-    public ResponseEntity<?> paginationListByProfileName(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                         @RequestParam(value = "size", defaultValue = "5") int size,
-                                                         @PathVariable("profileName") String profileName) {
+    public ResponseEntity<?> paginationListByProfileNameClient(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                               @RequestParam(value = "size", defaultValue = "5") int size,
+                                                               @PathVariable("profileName") String profileName) {
         log.info("/profile/{profileName} {}", profileName);
-        return ResponseEntity.ok(transactionService.paginationListByProfileName(page, size, profileName));
+        return ResponseEntity.ok(transactionService.paginationListByProfileNameClient(page, size, profileName));
+    }
+
+    @ApiOperation(value = "List By Profile Name From Transaction",
+            notes = "Method used for get pagination list by profile name from transaction")
+    @PreAuthorize("hasRole('bank')")
+    @GetMapping("/{profileName}")
+    public ResponseEntity<?> paginationListByProfileNameTransaction(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                                    @RequestParam(value = "size", defaultValue = "5") int size,
+                                                                    @PathVariable("profileName") String profileName) {
+        log.info("/profile/{profileName} {}", profileName);
+        return ResponseEntity.ok(transactionService.paginationListByProfileNameTransaction(page, size, profileName));
     }
 
 }
