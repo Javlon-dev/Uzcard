@@ -4,8 +4,8 @@ Authorization: Basic bank bankjon
 Content-Type: application/json
 
 {
-  "name": "ali",
-  "surname": "aliyev",
+  "name": "Ali",
+  "surname": "Aliyev",
   "phone": "+998991234567"
 }
 

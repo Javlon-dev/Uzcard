@@ -29,8 +29,8 @@ public class CardController {
     @ApiOperation(value = "Create", notes = "Method used for create card")
     @PreAuthorize("hasRole('bank')")
     @PostMapping("")
-    public ResponseEntity<?> create(User user) {
-        log.info("user={}", user.getUsername());
+    public ResponseEntity<?> create(Principal principal) {
+        log.info("inMemoryAuthentication={}", principal.getName());
         return ResponseEntity.ok(cardService.create());
     }
 
