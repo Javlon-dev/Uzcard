@@ -1,5 +1,5 @@
 ### Create
-POST http://uzcarduz.herokuapp.com/api/v1/transaction
+POST http://localhost:8080/api/v1/transaction
 Authorization: Basic bank bankjon
 Content-Type: application/json
 
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### List By Card
-GET http://uzcarduz.herokuapp.com/api/v1/transaction/card
+GET http://localhost:8080/api/v1/transaction/card
 Authorization: Basic bank bankjon
 Content-Type: application/json
 
@@ -19,11 +19,11 @@ Content-Type: application/json
 }
 
 ### List By Client Id
-GET http://uzcarduz.herokuapp.com/api/v1/transaction/client/8a8a839980ffbd9d0180ffbe4b300000
+GET http://localhost:8080/api/v1/transaction/client/8a8a839980ffbd9d0180ffbe4b300000
 Authorization: Basic bank bankjon
 
 ### List By Phone Number
-GET http://uzcarduz.herokuapp.com/api/v1/transaction/phone
+GET http://localhost:8080/api/v1/transaction/phone
 Authorization: Basic bank bankjon
 Content-Type: application/json
 
@@ -32,15 +32,15 @@ Content-Type: application/json
 }
 
 ### List By Profile Name From Client
-GET http://uzcarduz.herokuapp.com/api/v1/transaction/profile/bank
+GET http://localhost:8080/api/v1/transaction/profile/bank
 Authorization: Basic bank bankjon
 
 ### List By Profile Name From Transaction
-GET http://uzcarduz.herokuapp.com/api/v1/transaction/bank
+GET http://localhost:8080/api/v1/transaction/bank
 Authorization: Basic bank bankjon
 
 ### List By Filter
-GET http://uzcarduz.herokuapp.com/api/v1/transaction/filter
+GET http://localhost:8080/api/v1/transaction/filter
 Authorization: Basic admin adminjon
 Content-Type: application/json
 

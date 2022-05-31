@@ -1,5 +1,5 @@
 ### Create
-POST http://uzcarduz.herokuapp.com/api/v1/client
+POST http://localhost:8080/api/v1/client
 Authorization: Basic bank bankjon
 Content-Type: application/json
 
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### Update Bio
-PUT http://uzcarduz.herokuapp.com/api/v1/client/bio/8a8a839980ffbd9d0180ffbe4b300000
+PUT http://localhost:8080/api/v1/client/bio/8a8a839980ffbd9d0180ffbe4b300000
 Authorization: Basic bank bankjon
 Content-Type: application/json
 
@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### Update Phone
-PUT http://uzcarduz.herokuapp.com/api/v1/client/phone/8a8a839980ff25200180ff25536a0000
+PUT http://localhost:8080/api/v1/client/phone/8a8a839980ff25200180ff25536a0000
 Authorization: Basic bank bankjon
 Content-Type: application/json
 
@@ -29,7 +29,7 @@ Content-Type: application/json
 }
 
 ### Update Status
-PUT http://uzcarduz.herokuapp.com/api/v1/client/status/8a8a839980ff25200180ff25536a0000
+PUT http://localhost:8080/api/v1/client/status/8a8a839980ff25200180ff25536a0000
 Authorization: Basic bank bankjon
 Content-Type: application/json
 
@@ -38,13 +38,13 @@ Content-Type: application/json
 }
 
 ### List
-GET http://uzcarduz.herokuapp.com/api/v1/client/list?page=0&size=0
+GET http://localhost:8080/api/v1/client/list?page=0&size=0
 Authorization: Basic admin adminjon
 
 ### List By Profile
-GET http://uzcarduz.herokuapp.com/api/v1/client/list/bank
+GET http://localhost:8080/api/v1/client/list/bank
 Authorization: Basic profile profilejon
 
 ### Get By Client
-GET http://uzcarduz.herokuapp.com/api/v1/client/8a8a839980ff25200180ff25536a0000
+GET http://localhost:8080/api/v1/client/8a8a839980ff25200180ff25536a0000
 Authorization: Basic profile profilejon
