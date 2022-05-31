@@ -1,6 +1,6 @@
 package com.company;
 
-import com.company.repository.mazgi.BankRepository;
+import com.company.repository.BankRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

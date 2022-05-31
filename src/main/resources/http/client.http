@@ -38,7 +38,7 @@ Content-Type: application/json
 }
 
 ### List
-GET http://localhost:8080/api/v1/client/list
+GET http://localhost:8080/api/v1/client/list?page=0&size=0
 Authorization: Basic admin adminjon
 
 ### List By Profile

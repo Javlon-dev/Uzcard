@@ -1,6 +1,9 @@
 package com.company.controller;
 
-import com.company.dto.*;
+import com.company.dto.card.CardNumberDTO;
+import com.company.dto.client.ClientPhoneDTO;
+import com.company.dto.transaction.TransactionDTO;
+import com.company.dto.transaction.TransactionFilterDTO;
 import com.company.service.TransactionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

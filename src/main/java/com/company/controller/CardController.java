@@ -1,6 +1,8 @@
 package com.company.controller;
 
-import com.company.dto.*;
+import com.company.dto.card.CardFilterDTO;
+import com.company.dto.card.CardNumberDTO;
+import com.company.dto.card.CardStatusDTO;
 import com.company.service.CardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -77,8 +79,7 @@ public class CardController {
     @ApiOperation(value = "Get", notes = "Method used for get card")
     @PreAuthorize("hasAnyRole('bank','profile','admin')")
     @GetMapping("")
-    public ResponseEntity<?> get(@RequestBody CardNumberDTO dto,
-                                 Principal principal) {
+    public ResponseEntity<?> get(@RequestBody CardNumberDTO dto) {
         log.info("");
         return ResponseEntity.ok(cardService.get(dto));
     }

@@ -1,4 +1,4 @@
-package com.company.dto;
+package com.company.dto.card;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

@@ -1,5 +1,7 @@
-package com.company.dto;
+package com.company.dto.transaction;
 
+import com.company.dto.BaseDTO;
+import com.company.dto.card.CardDTO;
 import com.company.enums.TransactionsStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

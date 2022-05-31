@@ -1,9 +1,9 @@
 package com.company.service;
 
-import com.company.dto.ClientBioDTO;
-import com.company.dto.ClientDTO;
-import com.company.dto.ClientPhoneDTO;
-import com.company.dto.ClientStatusDTO;
+import com.company.dto.client.ClientBioDTO;
+import com.company.dto.client.ClientDTO;
+import com.company.dto.client.ClientPhoneDTO;
+import com.company.dto.client.ClientStatusDTO;
 import com.company.entity.ClientEntity;
 import com.company.enums.EntityStatus;
 import com.company.exception.ItemNotFoundException;

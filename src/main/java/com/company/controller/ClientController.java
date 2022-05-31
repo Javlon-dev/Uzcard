@@ -1,9 +1,9 @@
 package com.company.controller;
 
-import com.company.dto.ClientBioDTO;
-import com.company.dto.ClientDTO;
-import com.company.dto.ClientPhoneDTO;
-import com.company.dto.ClientStatusDTO;
+import com.company.dto.client.ClientBioDTO;
+import com.company.dto.client.ClientDTO;
+import com.company.dto.client.ClientPhoneDTO;
+import com.company.dto.client.ClientStatusDTO;
 import com.company.service.ClientService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

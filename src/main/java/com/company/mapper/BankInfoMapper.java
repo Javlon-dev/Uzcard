@@ -1,4 +1,4 @@
-package com.company.repository.mazgi;
+package com.company.mapper;
 
 public interface BankInfoMapper {
 

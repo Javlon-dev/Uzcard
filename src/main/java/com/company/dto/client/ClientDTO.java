@@ -1,5 +1,6 @@
-package com.company.dto;
+package com.company.dto.client;
 
+import com.company.dto.BaseDTO;
 import com.company.enums.EntityStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

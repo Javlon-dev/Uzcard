@@ -1,6 +1,9 @@
 package com.company.service;
 
-import com.company.dto.*;
+import com.company.dto.card.CardDTO;
+import com.company.dto.client.ClientDTO;
+import com.company.dto.transaction.TransactionDTO;
+import com.company.dto.transaction.TransactionFilterDTO;
 import com.company.entity.CardEntity;
 import com.company.entity.TransactionEntity;
 import com.company.enums.TransactionsStatus;

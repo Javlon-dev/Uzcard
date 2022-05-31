@@ -1,6 +1,10 @@
 package com.company.service;
 
-import com.company.dto.*;
+import com.company.dto.card.CardDTO;
+import com.company.dto.card.CardFilterDTO;
+import com.company.dto.card.CardNumberDTO;
+import com.company.dto.card.CardStatusDTO;
+import com.company.dto.client.ClientDTO;
 import com.company.entity.CardEntity;
 import com.company.enums.EntityStatus;
 import com.company.exception.AppBadRequestException;

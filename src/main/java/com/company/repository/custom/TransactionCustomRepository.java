@@ -1,11 +1,8 @@
 package com.company.repository.custom;
 
-import com.company.dto.CardFilterDTO;
-import com.company.dto.TransactionFilterDTO;
-import com.company.entity.CardEntity;
+import com.company.dto.transaction.TransactionFilterDTO;
 import com.company.enums.TransactionsStatus;
 import com.company.mapper.TransactionInfoMapper;
-import com.company.mapper.TransactionsInfoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

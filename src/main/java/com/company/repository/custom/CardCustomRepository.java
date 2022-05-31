@@ -1,6 +1,6 @@
 package com.company.repository.custom;
 
-import com.company.dto.CardFilterDTO;
+import com.company.dto.card.CardFilterDTO;
 import com.company.entity.CardEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

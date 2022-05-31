@@ -1,4 +1,4 @@
-package com.company.dto;
+package com.company.dto.card;
 
 import com.company.enums.EntityStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
