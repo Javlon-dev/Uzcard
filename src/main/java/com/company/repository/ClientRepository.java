@@ -13,4 +13,6 @@ public interface ClientRepository extends JpaRepository<ClientEntity, String> {
 
     Optional<ClientEntity> findByIdAndProfileName(String id, String profileName);
 
+    Optional<ClientEntity> findByPhone(String phone);
+
 }

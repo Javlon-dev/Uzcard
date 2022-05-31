@@ -29,6 +29,8 @@ public class ClientService {
 
 
     public ClientDTO create(ClientDTO dto, String profileName) {
+        checkPhone(dto.getPhone());
+
         ClientEntity entity = new ClientEntity();
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
@@ -124,6 +126,13 @@ public class ClientService {
                     log.warn("Not found {}", clientId);
                     return new ItemNotFoundException("Not found!");
                 });
+    }
+
+    public void checkPhone(String phone) {
+        if (clientRepository.findByPhone(phone).isPresent()) {
+            log.warn("Phone Number Unique {}", phone);
+            throw new ItemNotFoundException("Phone Number Unique!");
+        }
     }
 
     public ClientDTO toDTO(ClientEntity entity) {
